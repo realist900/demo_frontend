@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:demo_front/api/cat_api.dart';
 import 'package:demo_front/data/web_socket_repository.dart';
 import 'package:demo_front/dependency.dart';
@@ -15,28 +13,41 @@ class CatController extends ChangeNotifier {
   var eol = false;
 
   List<Cat> get cats => _cats;
-  int page = 0;
-  int size = 20;
+  final int _limit = 20;
   bool _isLoading = false;
 
   void init() async {
     await webSocketRepository.connect();
-    webSocketRepository.refreshStream.whereType<RemoveCatEvent>().listen((event) {});
+    webSocketRepository.refreshStream.whereType<RemoveCatEvent>().listen((event) {
+      _cats.removeWhere((cat) => event.removedCatIds.contains(cat.id));
+      notifyListeners();
+    });
   }
 
-  void loadItems() async {
+  void loadInitial() async {
+    try {
+      var data = await catApi.getCats(
+        limit: _limit,
+        offset: _cats.length,
+      );
+      _cats.addAll(data.values);
+      eol = _cats.length >= data.total;
+    } catch (e) {
+      _cats = [];
+    }
+    notifyListeners();
+  }
+
+  void loadMore() async {
     if (_isLoading || eol) return;
     _isLoading = true;
     try {
-      var data = (await catApi.getCats(
-        limit: 1,
-        offset: 2,
-      ));
+      var data = await catApi.getCats(
+        limit: _limit,
+        offset: _cats.length,
+      );
       _cats.addAll(data.values);
       eol = _cats.length >= data.total;
-      // if (_cats.length > (page + 1) * size) {
-      //   page++;
-      // }
     } catch (e) {
       _cats = [];
     }
@@ -47,7 +58,7 @@ class CatController extends ChangeNotifier {
   void deleteCat(Cat cat) async {
     try {
       await catApi.deleteCat(cat.id);
-      loadItems();
+      loadInitial();
     } catch (e) {
       print(e);
     }

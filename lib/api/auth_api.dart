@@ -1,6 +1,5 @@
 import 'package:demo_front/api/request/login_request.dart';
 import 'package:demo_front/api/request/register_request.dart';
-import 'package:demo_front/model/cat.dart';
 import 'package:demo_front/model/token_response.dart';
 import 'package:demo_front/model/user.dart';
 import 'package:dio/dio.dart';

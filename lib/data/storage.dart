@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:demo_front/model/user.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Storage {

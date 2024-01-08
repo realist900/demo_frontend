@@ -1,9 +1,7 @@
 import 'package:demo_front/api/auth_api.dart';
-import 'package:demo_front/api/cat_api.dart';
 import 'package:demo_front/api/request/login_request.dart';
 import 'package:demo_front/data/storage.dart';
 import 'package:demo_front/dependency.dart';
-import 'package:demo_front/model/cat.dart';
 import 'package:demo_front/model/token_response.dart';
 import 'package:demo_front/model/user.dart';
 import 'package:flutter/material.dart';

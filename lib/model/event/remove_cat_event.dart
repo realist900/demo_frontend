@@ -1,8 +1,7 @@
-import 'package:demo_front/model/cat.dart';
 import 'package:demo_front/model/event/base_event.dart';
 
 class RemoveCatEvent implements BaseEvent {
-  final List<Cat> removedCats;
+  final List<int> removedCatIds;
 
-  RemoveCatEvent({required this.removedCats});
+  RemoveCatEvent({required this.removedCatIds});
 }

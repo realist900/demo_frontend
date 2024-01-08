@@ -27,55 +27,6 @@ class AuthorizationInterceptor extends QueuedInterceptorsWrapper {
     handler.next(options);
   }
 
-  // @override
-  // void onError(
-  //     DioError err,
-  //     ErrorInterceptorHandler handler,
-  //     ) async {
-  //   if (err.response?.statusCode == 401) {
-  //     final refreshToken = _storage.refreshToken;
-  //     if (refreshToken == null || refreshToken.isEmpty) {
-  //       _authorizationRepository.logout();
-  //
-  //       return handler.next(err);
-  //     }
-  //     try {
-  //       final RequestOptions requestOptions = err.response!.requestOptions;
-  //       final Dio dioRefresh = Dio(
-  //         BaseOptions(
-  //           baseUrl: requestOptions.baseUrl,
-  //           headers: requestOptions.headers,
-  //         ),
-  //       );
-  //       final TokenRepository tokenRepository = TokenRepositoryImpl(TokenApi(dioRefresh));
-  //       final Authorization authorization = await tokenRepository.refresh(refreshToken);
-  //       await _storage.saveTokens(
-  //         access: authorization.accessToken.token,
-  //         refresh: authorization.refreshToken.token,
-  //       );
-  //       requestOptions.headers['Authorization'] = 'Bearer ${authorization.accessToken}';
-  //       final Options options = Options(
-  //         method: requestOptions.method,
-  //         headers: requestOptions.headers,
-  //       );
-  //
-  //       final Response<dynamic> response = await dioRefresh.request<dynamic>(
-  //         requestOptions.path,
-  //         data: requestOptions.data,
-  //         queryParameters: requestOptions.queryParameters,
-  //         options: options,
-  //       );
-  //
-  //       return handler.resolve(response);
-  //     } on DioError {
-  //       if (err.response?.statusCode == 401) {
-  //         _authorizationRepository.logout();
-  //       }
-  //     }
-  //   }
-  //   handler.next(err);
-  // }
-
   String cURLRepresentation(RequestOptions options) {
     List<String> components = ['\$ curl -i'];
     // if (options.method.toUpperCase() == 'GET') {

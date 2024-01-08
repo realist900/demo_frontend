@@ -1,5 +1,4 @@
 import 'package:demo_front/model/cat.dart';
-import 'package:demo_front/model/page.dart';
 import 'package:demo_front/model/paging_data.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';

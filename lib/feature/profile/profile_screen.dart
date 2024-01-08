@@ -1,3 +1,4 @@
+import 'package:demo_front/api/request/delete_fcm_token_request.dart';
 import 'package:demo_front/data/storage.dart';
 import 'package:demo_front/dependency.dart';
 import 'package:demo_front/feature/login/login_screen.dart';
@@ -25,6 +26,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             IconButton(
               onPressed: () async {
                 final navigator = Navigator.of(context);
+                final String? token = _storage.accessToken;
+                if (token != null) {
+                  deleteFcmToken(token);
+                }
                 await _storage.clearUser();
                 await _storage.clearTokens();
                 navigator.pushAndRemoveUntil(
@@ -48,6 +53,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void deleteFcmToken(String accessToken) async {
+    Dependency.cloudMessagingApi.deleteFcmToken(
+      'Bearer $accessToken',
+      DeleteFcmTokenRequest(
+        deviceId: await Dependency.deviceInfo.deviceId(),
       ),
     );
   }

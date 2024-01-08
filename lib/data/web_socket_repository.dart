@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:demo_front/dependency.dart';
-import 'package:demo_front/model/cat.dart';
 import 'package:demo_front/model/event/base_event.dart';
 import 'package:demo_front/model/event/remove_cat_event.dart';
 
@@ -30,16 +29,16 @@ class WebSocketRepository {
         final dynamic payload = message['payload'];
 
         switch (type) {
-          case 'removeCat':
-            final cats = (payload as List).map((e) => Cat.fromJson(e as Map<String, Object?>)).toList();
-            refreshController.add(RemoveCatEvent(removedCats: cats));
+          case 'removeCats':
+            handleRemoveCat(payload);
         }
       },
     );
   }
 
   void handleRemoveCat(dynamic payload) {
-    //payload as Map<String, Object?>;
+    final catIds = (payload as List).map((e) => e as int).toList();
+    refreshController.add(RemoveCatEvent(removedCatIds: catIds));
   }
 
   void close() {

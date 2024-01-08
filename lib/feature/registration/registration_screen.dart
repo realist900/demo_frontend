@@ -1,4 +1,3 @@
-import 'package:demo_front/feature/cat/cat_screen.dart';
 import 'package:demo_front/feature/registration/registration_controller.dart';
 import 'package:flutter/material.dart';
 
